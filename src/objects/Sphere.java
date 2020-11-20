@@ -5,15 +5,14 @@ import util.Hitinfo;
 import util.Logger;
 
 public class Sphere {
-    Point point;
-    double radius;
+    public double radius;
 
-    public Sphere(double x, double y, double z, double radius){
-        this.point = new Point(x, y, z);
-        this.radius = radius;
+    public Sphere(){
+        this.radius = 1;
     }
 
     public Hitinfo isHit(Ray ray){
+        Hitinfo hitinfo = new Hitinfo();
         // Calculate a discriminant
         double A = ray.getDirection().dotproduct(ray.getDirection());
         double B = ray.getDirection().dotproduct(ray.getStart());
@@ -23,7 +22,7 @@ public class Sphere {
 
         if (discriminant<0) {
             new Logger(this.getClass().getName(), "isHit()", "Miss");
-            return new Hitinfo(0, 0, 0, null, null);
+            return hitinfo;
         }
         double t1 = (-B+Math.sqrt(discriminant))/(2*A);
         double t2 = (-B-Math.sqrt(discriminant))/(2*A);
@@ -33,7 +32,8 @@ public class Sphere {
 
         Point p1 = new Point((ray.getStart().getX()+ray.getDirection().getX())*t1, (ray.getStart().getY()+ray.getDirection().getY())*t1, (ray.getStart().getZ()+ray.getDirection().getZ())*t1);
         Point p2 = new Point((ray.getStart().getX()+ray.getDirection().getX())*t2, (ray.getStart().getY()+ray.getDirection().getY())*t2, (ray.getStart().getZ()+ray.getDirection().getZ())*t2);
-
-        return new Hitinfo(amountOfHits, t1, t2, p1, p2);
+        hitinfo.addHit(t1, p1);
+        hitinfo.addHit(t2, p2);
+        return hitinfo;
     }
 }

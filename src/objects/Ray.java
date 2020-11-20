@@ -7,6 +7,7 @@ import mathematics.Vector;
 public class Ray {
     public Direction direction;
     public Point eye;
+
     public Ray (){
         this.direction = null;
         this.eye = null;

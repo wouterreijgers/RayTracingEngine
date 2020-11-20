@@ -8,7 +8,7 @@ public class MatrixFactory {
                .change(2, 3, z);
     }
 
-    public Matrix scalingMatrix(int x, int y, int z){
+    public Matrix scalingMatrix(double x, double y, double z){
         return new Matrix()
                 .change(0, 0, x)
                 .change(1, 1, y)
@@ -27,21 +27,21 @@ public class MatrixFactory {
                         .change(1, 1, cos)
                         .change(2, 1, -sin)
                         .change(2, 2, cos)
-                        .change(2, 1, cos);
+                        .change(1, 2, sin);
                 break;
             case "Y":
                 matrix = new Matrix()
                         .change(0, 0, cos)
-                        .change(2, 0, -sin)
+                        .change(2, 0, sin)
                         .change(2, 2, cos)
-                        .change(0, 2, sin);
+                        .change(0, 2, -sin);
                 break;
             case "Z":
                 matrix = new Matrix()
                         .change(0, 0, cos)
-                        .change(0, 1, -sin)
+                        .change(1, 0, -sin)
                         .change(1, 1, cos)
-                        .change(0, 2, sin);
+                        .change(0, 1, sin);
                 break;
             default:
                 matrix = new Matrix();

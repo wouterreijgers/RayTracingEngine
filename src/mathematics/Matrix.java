@@ -124,7 +124,7 @@ public class Matrix {
 			double sum = 0;
 			for (int j = 0; j < 4; j++)
 			{
-				sum += this.matrix[j][i] * vector.get(j);
+				sum += this.matrix[i][j] * vector.get(j);
 			}
 
 			newVector[i] = sum;
