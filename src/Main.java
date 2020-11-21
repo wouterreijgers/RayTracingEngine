@@ -39,7 +39,7 @@ public class Main {
 				new Cube(),
 				new MatrixFactory()
 						.scalingMatrix(0.5, 0.5, 0.5)
-						.multiply(new MatrixFactory().translationMatrix(-1, 0, 0)),
+						.multiply(new MatrixFactory().translationMatrix(0, 0, 0)),
 						//.multiply(new MatrixFactory().rotationMatrix("Z", Math.PI / 3))
 						//.multiply(new MatrixFactory().rotationMatrix("Y", Math.PI / 4 )),
 				new Hitinfo(),
