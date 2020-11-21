@@ -158,7 +158,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 								break;
 							case 1:
 
@@ -172,7 +172,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							case 2:
@@ -186,7 +186,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							case 3:
@@ -200,7 +200,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							default:
@@ -223,7 +223,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							case 1:
@@ -237,7 +237,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							case 2:
@@ -251,7 +251,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							case 3:
@@ -265,7 +265,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 								break;
 							default:
 								new Logger("", "invert", "out of range");
@@ -287,7 +287,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							case 1:
@@ -301,7 +301,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							case 2:
@@ -315,7 +315,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							case 3:
@@ -329,7 +329,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							default:
@@ -352,7 +352,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							case 1:
@@ -366,7 +366,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							case 2:
@@ -380,8 +380,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(
-										i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(										i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							case 3:
@@ -395,7 +394,7 @@ public class Matrix {
 										- temp[0][2] * temp[1][1] * temp[2][0]
 										- temp[0][1] * temp[1][0] * temp[2][2]
 										- temp[0][0] * temp[1][2] * temp[2][1]);
-								System.out.println(i + ", " + j + " -> " + A2[i][j]);
+								//System.out.println(i + ", " + j + " -> " + A2[i][j]);
 
 								break;
 							default:
@@ -468,7 +467,7 @@ public class Matrix {
 		}
 
 		determinant = A3[0]-A3[1]+A3[2]-A3[3];
-		System.out.println(determinant);
+		//System.out.println(determinant);
 		double tempVal = 0;
 		double A4[][] = {
 				{0, 0, 0, 0},
@@ -480,15 +479,15 @@ public class Matrix {
 				A4[i][j]=Math.pow((-1), i+j)*A2[j][i];
 			}
 		}
-		System.out.println("A2");
+		//System.out.println("A2");
 		new Matrix(A2).printMatrix();
-		System.out.println("A4");
+		//System.out.println("A4");
 		new Matrix(A4).printMatrix();
-		System.out.println("A4");
+		//System.out.println("A4");
 
 		//new Matrix(A2).printMatrix();
 		Matrix inverse = new Matrix(A4).divide(determinant);
-		inverse.printMatrix();
+		//inverse.printMatrix();
 		return inverse;
 	}
 

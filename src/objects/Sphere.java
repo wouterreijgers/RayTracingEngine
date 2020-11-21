@@ -16,16 +16,16 @@ public class Sphere implements ObjectShapeIF{
         // Calculate a discriminant
         double A = ray.getDirection().dotproduct(ray.getDirection());
         double B = ray.getDirection().dotproduct(ray.getStart());
-        double C = Math.pow(ray.getDirection().getnorm(), 2)- Math.pow(1, 2);
+        double C = Math.pow(ray.getStart().getnorm(), 2)- 1;
 
-        double discriminant = Math.pow(B, 2)-A*C;
+        double discriminant = Math.pow(B, 2)-(A*C);
 
         if (discriminant<0) {
             new Logger(this.getClass().getName(), "isHit()", "Miss");
             return hitinfo;
         }
-        double t1 = (-B+Math.sqrt(discriminant))/(2*A);
-        double t2 = (-B-Math.sqrt(discriminant))/(2*A);
+        double t1 = (-B+Math.sqrt(discriminant))/(A);
+        double t2 = (-B-Math.sqrt(discriminant))/(A);
         int amountOfHits = 2;
         if (discriminant==0)
             amountOfHits = 1;

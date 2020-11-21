@@ -26,15 +26,15 @@ public class Hitinfo {
     public double closestT() {
         if(hitlist.size()==0)
             return -Double.POSITIVE_INFINITY;
-        System.out.println("Test closest obj");
+        //System.out.println("Test closest obj");
         double lowestT = Double.POSITIVE_INFINITY;
-        System.out.println(lowestT);
+        //System.out.println(lowestT);
         for ( Map.Entry<Double, Map<Point, Direction>> entry : hitlist.entrySet()) {
             double key = entry.getKey();
             System.out.println(key);
             if(key<=lowestT)
                 lowestT = key;
-            System.out.println(lowestT);
+            //System.out.println(lowestT);
 
         }
         return lowestT;

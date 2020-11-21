@@ -20,7 +20,7 @@ public class Cube implements ObjectShapeIF{
          */
         // X
         t = (1 - ray.eye.getX()) / ray.direction.getX();
-        System.out.println(ray.direction.getX());
+        //System.out.println(ray.direction.getX());
         p = new Point((ray.eye.getX()+ray.direction.getX()*t), (ray.eye.getY()+ray.direction.getY()*t), (ray.eye.getZ()+ray.direction.getZ()*t));
         if (hit(t, p, 'X'))
             hitinfo.addHit(t, p, new Direction(1, 0, 0));
