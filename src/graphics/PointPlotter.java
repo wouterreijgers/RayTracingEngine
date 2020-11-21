@@ -1,5 +1,7 @@
 package graphics;
 
+import objects.texture.Color;
+
 import javax.swing.*;
 
 public class PointPlotter {
@@ -43,6 +45,10 @@ public class PointPlotter {
     public void forceUpdate()
     {
         pointPanel.repaint();
+    }
+
+    public void drawPoint(int y, int x, Color color) {
+        pointPanel.drawPoint(y, x, color.getR(), color.getG(), color.getB());
     }
 }
 

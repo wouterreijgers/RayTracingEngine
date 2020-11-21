@@ -1,14 +1,14 @@
 package objects;
 
+import mathematics.Direction;
 import mathematics.Point;
 import util.Hitinfo;
 import util.Logger;
 
-public class Sphere {
-    public double radius;
+public class Sphere implements ObjectShapeIF{
 
     public Sphere(){
-        this.radius = 1;
+
     }
 
     public Hitinfo isHit(Ray ray){
@@ -16,7 +16,7 @@ public class Sphere {
         // Calculate a discriminant
         double A = ray.getDirection().dotproduct(ray.getDirection());
         double B = ray.getDirection().dotproduct(ray.getStart());
-        double C = Math.pow(ray.getDirection().getnorm(), 2)- Math.pow(radius, 2);
+        double C = Math.pow(ray.getDirection().getnorm(), 2)- Math.pow(1, 2);
 
         double discriminant = Math.pow(B, 2)-A*C;
 
@@ -32,8 +32,8 @@ public class Sphere {
 
         Point p1 = new Point((ray.getStart().getX()+ray.getDirection().getX())*t1, (ray.getStart().getY()+ray.getDirection().getY())*t1, (ray.getStart().getZ()+ray.getDirection().getZ())*t1);
         Point p2 = new Point((ray.getStart().getX()+ray.getDirection().getX())*t2, (ray.getStart().getY()+ray.getDirection().getY())*t2, (ray.getStart().getZ()+ray.getDirection().getZ())*t2);
-        hitinfo.addHit(t1, p1);
-        hitinfo.addHit(t2, p2);
+        hitinfo.addHit(t1, p1, new Direction(1, 0, 0));
+        hitinfo.addHit(t2, p2, new Direction(1, 0, 0));
         return hitinfo;
     }
 }
