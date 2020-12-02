@@ -1,9 +1,6 @@
 import graphics.PointPlotter;
 import mathematics.*;
-import objects.Cube;
-import objects.ObjectCol;
-import objects.Ray;
-import objects.Sphere;
+import objects.*;
 import objects.texture.Color;
 import org.junit.Test;
 import util.Hitinfo;
@@ -25,13 +22,15 @@ public class Main {
 		Point eye = new Point(7, 0, 0);
 		Ray ray = new Ray();
 
+		Light light = new Light(new Point(7, 0, 0), new Color(1.0f, 1.0f, 1.0f));
+		plotter.setLight(light);
 		// OBJECTS
 		objects[0] = new ObjectCol(
 				new Sphere(),
-				new MatrixFactory()
-						.scalingMatrix(1.0, 0.6, 1.0)
-						.multiply(new MatrixFactory().translationMatrix(0, -1, 0))
-						.multiply(new MatrixFactory().rotationMatrix("Z", Math.PI / 7)),
+				new MatrixFactory().translationMatrix(0, -1, 0),
+						//.scalingMatrix(1.0, 0.6, 1.0)
+						//.multiply(new MatrixFactory().)
+						//.multiply(new MatrixFactory().rotationMatrix("Z", 2*Math.PI)),
 				new Hitinfo(),
 				eye,
 				new Color("green")
@@ -40,9 +39,9 @@ public class Main {
 				new Cube(),
 				new MatrixFactory()
 						.scalingMatrix(0.5, 0.5, 0.5)
-						.multiply(new MatrixFactory().translationMatrix(-0.2, 0.7, 1))
-						.multiply(new MatrixFactory().rotationMatrix("Z", Math.PI / 3))
-						.multiply(new MatrixFactory().rotationMatrix("Y", Math.PI / 4 )),
+						.multiply(new MatrixFactory().translationMatrix(-1, 1, 1)),
+//						.multiply(new MatrixFactory().rotationMatrix("Z", Math.PI / 3))
+//						.multiply(new MatrixFactory().rotationMatrix("Y", Math.PI / 4 )),
 				new Hitinfo(),
 				eye,
 				new Color(0.2f, 0.1f, 0.7f)
@@ -77,10 +76,6 @@ public class Main {
 				}
 				//ray.setDirection(new Direction(transf.multiply(direction.getVector())));
 
-				if (objects[0].getHitinfo().getAmountOfHits()>0 && objects[1].getHitinfo().getAmountOfHits()>0){
-					if (objects[0].getHitinfo().closestT() < objects[0].getHitinfo().closestT())
-						System.out.println("SPHERE"+ objects[0].getHitinfo().closestT()+ objects[1].getHitinfo().closestT() );
-				}
 
 				//hitinfo = cube.isHit(ray);
 				double lowestT = Double.POSITIVE_INFINITY;
@@ -94,7 +89,7 @@ public class Main {
 					}
 				}
 				if(closestObj.getHitinfo().getAmountOfHits()>0)
-					plotter.drawPoint((int)r, (int)c, closestObj.getColor());
+					plotter.drawPoint((int)r, (int)c, closestObj.getColor(), closestObj);
 
 			}
 		}

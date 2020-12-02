@@ -29,6 +29,25 @@ public class Vector {
 
     }
 
+    public Vector multiply(double j){
+        double[] newVector = {0, 0, 0, 0};
+        for (int i = 0; i < 4; i++)
+            newVector[i] = vector[0]*j +  vector[1]*j +  vector[2]*j +  vector[3]*j;
+        return new Vector(newVector);
+
+    }
+
+    public Vector normalise()
+    {
+        double magnitude = this.getnorm();
+        return new Vector(
+                vector[0] / magnitude,
+                vector[1] / magnitude,
+                vector[2] / magnitude,
+                vector[3]
+        );
+    }
+
     public double dotproduct(Vector p) {
         return vector[0]*p.getX() +vector[1]*p.getY() + vector[2]*p.getZ() + vector[3]*p.getA();
     }

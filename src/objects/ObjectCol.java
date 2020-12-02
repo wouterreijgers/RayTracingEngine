@@ -67,4 +67,8 @@ public class ObjectCol{
     public void setColor(Color color) {
         this.color = color;
     }
+
+    public Direction getNormal() {
+        return hitinfo.getNormal();
+    }
 }

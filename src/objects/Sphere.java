@@ -32,8 +32,8 @@ public class Sphere implements ObjectShapeIF{
 
         Point p1 = new Point((ray.getStart().getX()+ray.getDirection().getX())*t1, (ray.getStart().getY()+ray.getDirection().getY())*t1, (ray.getStart().getZ()+ray.getDirection().getZ())*t1);
         Point p2 = new Point((ray.getStart().getX()+ray.getDirection().getX())*t2, (ray.getStart().getY()+ray.getDirection().getY())*t2, (ray.getStart().getZ()+ray.getDirection().getZ())*t2);
-        hitinfo.addHit(t1, p1, new Direction(1, 0, 0));
-        hitinfo.addHit(t2, p2, new Direction(1, 0, 0));
+        hitinfo.addHit(t1, p1, new Direction(p1));
+        hitinfo.addHit(t2, p2, new Direction(p2));
         return hitinfo;
     }
 }

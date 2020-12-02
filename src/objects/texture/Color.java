@@ -1,5 +1,7 @@
 package objects.texture;
 
+import mathematics.Direction;
+
 public class Color {
     private float r;
     private float g;
@@ -47,5 +49,9 @@ public class Color {
 
     public void setB(float b) {
         this.b = b;
+    }
+
+    public void getIllumination(Direction normal){
+
     }
 }
