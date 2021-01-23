@@ -1,5 +1,7 @@
 package mathematics;
 
+import objects.Light;
+
 public class Vector {
     double[] vector;
 
@@ -37,6 +39,37 @@ public class Vector {
 
     }
 
+    public Vector multiply(Vector j){
+        double[] newVector = {0, 0, 0, 0};
+        for (int i = 0; i < 4; i++)
+            newVector[i] = vector[i]*j.get(i) ;
+        return new Vector(newVector);
+
+    }
+
+
+    public Vector sum(Vector v){
+        return new Vector(
+                new double[]{
+                        this.getX() + v.getX(),
+                        this.getY() + v.getY(),
+                        this.getZ() + v.getZ(),
+                        this.get(3) + v.getA()
+                }
+        );
+    }
+
+    public Vector invert(){
+        return new Vector(
+                new double[]{
+                        1/this.getX(),
+                        1/this.getY(),
+                        1/this.getZ(),
+                        1/this.get(3)
+                }
+        );
+    }
+
     public Vector normalise()
     {
         double magnitude = this.getnorm();
@@ -60,6 +93,17 @@ public class Vector {
         return new Vector(vector[0]-arg.getX(), vector[0]-arg.getY(), vector[0]-arg.getZ(), vector[3]-arg.getA());
     }
 
+    public void setX(double a){
+        vector[0] = a;
+    }
+
+    public void setY(double a){
+        vector[1] = a;
+    }
+
+    public void setZ(double a) { vector[2] = a;
+    }
+
     public double getX(){
         return vector[0];
     }
@@ -78,5 +122,18 @@ public class Vector {
 
     public double get(int j) {
         return vector[j];
+    }
+
+    protected void setA(double a) {
+        vector[3] = a;
+    }
+
+    public void add_color(Vector diffuseColor) {
+        /**
+         * This add function should only be used for colors.
+         */
+        vector[0] = vector[0] + vector[0] * diffuseColor.getX();
+        vector[1] = vector[1] + vector[1] * diffuseColor.getY();
+        vector[2] = vector[2] + vector[2] * diffuseColor.getZ();
     }
 }

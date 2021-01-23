@@ -5,7 +5,7 @@ public class MatrixFactory {
        return new Matrix()
                .change(0, 3, x)
                .change(1, 3, y)
-               .change(2, 3, -z);
+               .change(2, 3, z);
     }
 
     public Matrix scalingMatrix(double x, double y, double z){

@@ -11,10 +11,10 @@ class FactoryTest {
     @Test
     void testTranslation() {
         double[][] expected = {
-                {1, 0, 0, 0},
-                {0, 1, 0, 0},
-                {0, 0, 1, 0},
-                {3, 4, 8, 1}};
+                {1, 0, 0, 3},
+                {0, 1, 0, 4},
+                {0, 0, 1, 8},
+                {0, 0, 0, 1}};
         Matrix translation = new MatrixFactory().translationMatrix(3, 4, 8);
         assertEquals(true, compareMatrices(translation, new Matrix(expected)));
     }

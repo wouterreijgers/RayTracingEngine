@@ -1,5 +1,7 @@
 package graphics;
 
+import mathematics.Vector;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -30,6 +32,23 @@ public class PointPanel extends JPanel {
     public void drawPoint(int y, int x, float r, float g, float b)
     {
         frame.setRGB(x, y, new Color(r, g, b).getRGB());
+    }
+
+    public void drawPoint(int y, int x, Vector color)
+    {
+        if(color.getX()>1.0f){
+            System.out.println("ERROR, R out of range, max should be 1.0f but is " + color.getX());
+            color.setX(1.0f);
+        }
+        if(color.getY()>1.0f){
+            System.out.println("ERROR, G out of range, max should be 1.0f but is " + color.getY());
+            color.setY(1.0f);
+        }
+        if(color.getZ()>1.0f){
+            System.out.println("ERROR, B out of range, max should be 1.0f but is " + color.getZ());
+            color.setZ(1.0f);
+        }
+        frame.setRGB(x, y, new Color((float)color.getX(), (float)color.getY(), (float)color.getZ()).getRGB());
     }
 
     @Override

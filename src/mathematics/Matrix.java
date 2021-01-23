@@ -479,11 +479,7 @@ public class Matrix {
 				A4[i][j]=Math.pow((-1), i+j)*A2[j][i];
 			}
 		}
-		//System.out.println("A2");
-		new Matrix(A2).printMatrix();
-		//System.out.println("A4");
-		new Matrix(A4).printMatrix();
-		//System.out.println("A4");
+
 
 		//new Matrix(A2).printMatrix();
 		Matrix inverse = new Matrix(A4).divide(determinant);

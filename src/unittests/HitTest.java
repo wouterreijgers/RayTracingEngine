@@ -6,6 +6,7 @@ import objects.ObjectCol;
 import objects.Ray;
 import objects.Sphere;
 import objects.texture.Color;
+import objects.texture.Texture;
 import org.junit.jupiter.api.Test;
 import util.Hitinfo;
 
@@ -28,7 +29,7 @@ class HitTest {
                 //.multiply(new MatrixFactory().rotationMatrix("Y", Math.PI / 4 )),
                 new Hitinfo(),
                 eye,
-                new Color(0.2f, 0.1f, 0.7f)
+                new Texture(new Color(0.3f, 0.2f, 0.3f), new Vector(0.5, 0.5, 0.5, 0))
         );
         object.inverses();
         object.isHit(direction);

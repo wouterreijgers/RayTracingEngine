@@ -52,7 +52,7 @@ public class Cube implements ObjectShapeIF{
         if (hit(t, p, 'Z'))
             hitinfo.addHit(t, p, new Direction(0, 0, -1));
 
-        System.out.println(hitinfo.getAmountOfHits());
+//        System.out.println(hitinfo.getAmountOfHits());
         return hitinfo;
 
     }

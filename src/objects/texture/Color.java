@@ -1,11 +1,12 @@
 package objects.texture;
 
 import mathematics.Direction;
+import mathematics.Vector;
 
-public class Color {
-    private float r;
-    private float g;
-    private float b;
+public class Color{
+    public float r;
+    public float g;
+    public float b;
 
     public Color(float r, float g, float b){
         this.r = r;
@@ -13,12 +14,23 @@ public class Color {
         this.b = b;
     }
 
+
     public Color(String color){
         switch(color){
-            case "green":
-                r = 0;
-                g = 1;
-                b = 0;
+            case "blue":
+                r = 0.2f;
+                g = 0.2f;
+                b = 0.5f;
+                break;
+            case "purple":
+                r = 0.3f;
+                g = 0.2f;
+                b = 0.3f;
+                break;
+            case "red":
+                r = 0.7f;
+                g = 0.2f;
+                b = 0.1f;
                 break;
             default:
                 r = 1;
@@ -50,6 +62,8 @@ public class Color {
     public void setB(float b) {
         this.b = b;
     }
+
+    public Vector getVector() { return new Vector(r, g, b, 0);}
 
     public void getIllumination(Direction normal){
 

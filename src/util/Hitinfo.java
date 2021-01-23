@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class Hitinfo {
 
-    Map<Double, HitPoint> hitlist = new HashMap<Double, HitPoint>();
+    Map<Double, HitPoint> hitlist = new HashMap<Double, HitPoint>(); // double = Hit time, Hitpoint contains more information about the point.
 
     public Hitinfo(){
     }
@@ -24,19 +24,14 @@ public class Hitinfo {
         return hitlist.size();
     }
 
-    public double closestT() {
+    public Double closestT() {
         if(hitlist.size()==0)
-            return -Double.POSITIVE_INFINITY;
-        //System.out.println("Test closest obj");
+            return null;
         double lowestT = Double.POSITIVE_INFINITY;
-        //System.out.println(lowestT);
         for ( Map.Entry<Double, HitPoint> entry : hitlist.entrySet()) {
             double key = entry.getKey();
-            System.out.println(key);
             if(key<=lowestT)
                 lowestT = key;
-            //System.out.println(lowestT);
-
         }
         return lowestT;
     }

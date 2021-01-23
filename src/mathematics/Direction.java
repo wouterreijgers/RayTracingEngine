@@ -4,7 +4,7 @@ public class Direction extends Vector {
 
     public Direction(double[] vector) {
         super(vector);
-        super.vector[3] = 0;
+        super.vector[3] = 1;
     }
 
     public Direction(double x, double y, double z) {
@@ -18,7 +18,6 @@ public class Direction extends Vector {
     public Direction(Vector vector) {
         super(vector.vector);
         super.vector[3] = 0;
-
     }
 
 }
