@@ -133,20 +133,13 @@ public class Vector {
         vector[3] = a;
     }
 
-    public void add_color(Vector diffuseColor) {
+    public void add_color(Vector color) {
         /**
          * This add function should only be used for colors.
          */
-        vector[0] = vector[0] + vector[0] * diffuseColor.getX();
-        vector[1] = vector[1] + vector[1] * diffuseColor.getY();
-        vector[2] = vector[2] + vector[2] * diffuseColor.getZ();
+        vector[0] = vector[0] + color.getX();
+        vector[1] = vector[1] + color.getY();
+        vector[2] = vector[2] + color.getZ();
     }
-    public void add_phong(Vector specComp) {
-        /**
-         * This add function should only be used for colors.
-         */
-        vector[0] = vector[0] + specComp.getX();
-        vector[1] = vector[1] + specComp.getY();
-        vector[2] = vector[2] + specComp.getZ();
-    }
+
 }

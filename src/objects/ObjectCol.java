@@ -39,6 +39,11 @@ public class ObjectCol{
         this.name = name;
     }
 
+    public ObjectCol(ObjectCol object) {
+        this(object.name, object.object, object.transform, object.hitinfo, object.eye, object.texture);
+        this.light = object.light;
+    }
+
     public void isHit(Vector vec){
         Direction direction = new Direction(transform.multiply(vec));
         ray.setDirection(direction);

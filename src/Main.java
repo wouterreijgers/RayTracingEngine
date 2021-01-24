@@ -15,8 +15,8 @@ public class Main {
 
 		// Define window size;
 		ObjectCol[] objects = new ObjectCol[5];
-		int nRows = 1100;
-		int nCols = 1100;
+		int nRows = 900;
+		int nCols = 900;
 
 		// RAY
 		Point eye = new Point(7, 0.001, -0.5);
@@ -33,7 +33,7 @@ public class Main {
 				//.multiply(new MatrixFactory().)
 				new Hitinfo(),
 				eye,
-				new Texture(new Color(0.678f, 0.698f, 0.741f), new Vector(0.3, 0.3, 0.3, 0), new Vector(0.1, 0.1, 0.1, 0), 64.0, 0.0)
+				new Texture(new Color(0.38f, 0.48f, 0.3f), new Vector(0.5, 0.5, 0.5, 0), new Vector(0.1, 0.1, 0.1, 0), 2.0, 0.4)
 		);
 		objects[1] = new ObjectCol(
 				"Bol 1-mat",
@@ -46,18 +46,18 @@ public class Main {
 //						.multiply(new MatrixFactory().rotationMatrix("Y", Math.PI / 4 )),
 				new Hitinfo(),
 				eye,
-				new Texture(new Color(0.3f, 0.2f, 0.3f), new Vector(0.4, 0.4, 0.4, 0), new Vector(0.5, 0.5, 0.5, 0), 64.0, 0.0)
+				new Texture(new Color(0.3f, 0.2f, 0.3f), new Vector(0.4, 0.4, 0.4, 0), new Vector(0.2, 0.2, 0.2, 0), 2.0, 0.0)
 		);
 		objects[2] = new ObjectCol(
 				"Bol 2-glim",
 				new Sphere(),
 				new MatrixFactory().rotationMatrix("Z", 2*Math.PI)
-						.multiply(new MatrixFactory().translationMatrix(0, 0, -1))
+						.multiply(new MatrixFactory().translationMatrix(-3, -0, -4))
 						.multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 0.5)),
 				//.multiply(new MatrixFactory().)
 				new Hitinfo(),
 				eye,
-				new Texture(new Color("blue"), new Vector(0.9, 0.9, 0.9, 0), new Vector(0.1, 0.1, 0.1, 0), 2.0, 0.0)
+				new Texture(new Color(0.1f, 0.1f, 0.1f), new Vector(0.2, 0.2, 0.2, 0), new Vector(0.4, 0.4, 0.4, 0), 3.0, 0.0)
 		);
 		objects[3] = new ObjectCol(
 				"Pyramide",
@@ -68,7 +68,7 @@ public class Main {
 				//.multiply(new MatrixFactory().)
 				new Hitinfo(),
 				eye,
-				new Texture(new Color(0.3f, 0.2f, 0.6f), new Vector(0.4, 0.4, 0.4, 0), new Vector(0.1, 0.1, 0.1, 0), 64.0, 0.0)
+				new Texture(new Color(0.3f, 0.2f, 0.6f), new Vector(0.4, 0.4, 0.4, 0), new Vector(0.1, 0.1, 0.1, 0), 2.0, 0.0)
 		);
 		objects[4] = new ObjectCol(
 				"Cube",
@@ -79,10 +79,10 @@ public class Main {
 				//.multiply(new MatrixFactory().)
 				new Hitinfo(),
 				eye,
-				new Texture(new Color("red"), new Vector(0.9, 0.9, 0.9, 0), new Vector(0.1, 0.1, 0.1, 0), 64.0, 0.7)
+				new Texture(new Color("grey"), new Vector(0.2, 0.2, 0.2, 0), new Vector(0.1, 0.1, 0.1, 0), 0.3, 0.65)
 		);
 
-		Light light = new Light(new Point(4, -3, -2), new Color(1, 1, 1));
+		Light light = new Light(new Point(4, 1.3, -2), new Color(1f, 1f, 1f));
 		for(ObjectCol obj:objects){
 			obj.setLight(light);
 			obj.inverses();
@@ -111,6 +111,7 @@ public class Main {
 		//Matrix transf = transform.getInverse();
 		//ray.setStart(new Point(transf.multiply(eye.getVector())));
 		for(double r=0; r<nRows; r++) {
+			plotter.forceUpdate();
 			for (double c=0; c<nCols; c++){
 				Vector direction = new Vector(-7, 2*(((2*c)/nCols)-1), 2*(((2*r)/nRows)-1), 0);
 

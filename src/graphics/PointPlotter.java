@@ -21,7 +21,8 @@ public class PointPlotter {
     private final PointPanel pointPanel;
     private ObjectCol[] objects;
     private Light light_original;
-    
+    private Double maxRecursionLevel;
+
     public PointPlotter(int width, int heigth, ObjectCol[] objects) {
     	 pointPanel = new PointPanel(width, heigth);
 
@@ -81,23 +82,22 @@ public class PointPlotter {
     }
 
     public void drawPoint(int y, int x, Texture texture, ObjectCol obj) {
-        if(y == 500 && x == 350){
+        this.maxRecursionLevel = 4.0;
+        if(y == 200 && x == 450){
             forceUpdate();
             System.out.println("test");
         }
-        pointPanel.drawPoint(y, x, Shade(texture, obj).getVector());
-
+        pointPanel.drawPoint(y, x, Shade(texture, obj, obj.ray).getVector());
+        for(ObjectCol object:objects){
+            object.ray.recurseLevel = 0.0;
+        }
     }
 
-    public Color Shade(Texture texture, ObjectCol obj){
+    public Color Shade(Texture texture, ObjectCol obj, Ray r){
         Hitinfo hitinfo = obj.getHitinfo();
         Light light = obj.getLight();
         // The global illumination or the ambient color
         Vector global_Illumination = light.getIntensity().getVector();
-
-        // TODO: place inside the material
-        double specularComponent = 64;
-        Vector specular = new Vector(0.7, 0.7, 0.7, 0);
 
         if (hitinfo.getAmountOfHits() != 0) {// Based on p641
 
@@ -141,9 +141,52 @@ public class PointPlotter {
                     }
                 }
             }
-            if(obj.texture.getReflectionCoeff()>0.2){
+            if(r.recurseLevel.equals(maxRecursionLevel)){
+                return new Color(color_vector);
+            }
+            if(obj.texture.getReflectionCoeff()>0.6){
+                r.recurseLevel += 1;
+                if(r.recurseLevel>1){
+                    System.out.println("test");
+                }
+//                Direction reflectionDir = new Direction(new Direction(obj.transform_original.multiply(r.getDirection()).substract(m.multiply(m.multiply(obj.transform_original.multiply(r.getDirection()).multiply(2))))).normalise());
+
+                // Find reflection dir
+                Vector dir = obj.getTransform().multiply(r.direction).normalise().multiply(1);
+                Vector a = m.multiply(dir.dotproduct(m)*(2));
+                Direction reflectionDir = new Direction(dir.substract(a).normalise());
+
+                Ray reflectionRay = new Ray(new Direction(v.multiply(-1)),  new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint())));
+                reflectionRay.recurseLevel = r.recurseLevel;
+                ObjectCol[] objectsRecursion = new ObjectCol[objects.length-1];
+                int i=0;
+                for(ObjectCol object:objects){
+                    if(!obj.equals(object)) {
+                        objectsRecursion[i] = new ObjectCol(object);
+                        objectsRecursion[i].eye = new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint()));
+//                        System.out.println("Object: " + obj.name);
+                        objectsRecursion[i].inverses();
+                        objectsRecursion[i].isHit(reflectionDir);
+                        i+=1;
+                    }
+                }
+                double lowestT = Double.POSITIVE_INFINITY;
+                ObjectCol closestObj = objects[0];
+                for(ObjectCol object:objectsRecursion){
+                    if(object.getHitinfo().getAmountOfHits()>0){
+                        if(object.getHitinfo().closestT()<lowestT) {
+                            lowestT = object.getHitinfo().closestT();
+                            closestObj = object;
+                        }
+                    }
+                }
+                color_vector.add_color(Shade(closestObj.getTexture(), closestObj, reflectionRay).getVector().multiply(obj.getTexture().getReflectionCoeff()));
+                i += 1;
 
             }
+//            if(obj.texture.getTransparency()>0.5){
+//
+//            }
             return new Color(color_vector);
         } else { // This means there is no hit so we apply the background color #TODO add background color as a config
             Vector color_vector = new Vector(1.0, 1.0, 1.0, 0);
