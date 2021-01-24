@@ -42,7 +42,7 @@ public class Pyramid implements ObjectShapeIF{
         if (t >= 0 && p.getY()<=0 && p.getY()>=-1 && Math.abs(p.getX())<=1+p.getZ()) {
             hitinfo.addHit(t, p, new Direction(0, -1, -1));
         }
-        System.out.println(hitinfo.getAmountOfHits());
+//        System.out.println(hitinfo.getAmountOfHits());
         return hitinfo;
 
     }

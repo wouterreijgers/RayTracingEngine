@@ -9,6 +9,7 @@ import objects.texture.Texture;
 import util.Hitinfo;
 
 public class ObjectCol{
+    public String name;
     public ObjectShapeIF object;
     public Matrix transform;
     public Matrix transform_original;
@@ -27,6 +28,16 @@ public class ObjectCol{
         this.ray = new Ray();
         this.texture = texture;
     }
+    public ObjectCol(String name, ObjectShapeIF object, Matrix transform, Hitinfo hitinfo, Point eye, Texture texture){
+        this.object = object;
+        this.hitinfo = hitinfo;
+        this.transform = transform;
+        this.transform_original = transform;
+        this.eye = eye;
+        this.ray = new Ray();
+        this.texture = texture;
+        this.name = name;
+    }
 
     public void isHit(Vector vec){
         Direction direction = new Direction(transform.multiply(vec));
@@ -34,12 +45,10 @@ public class ObjectCol{
         hitinfo = object.isHit(ray);
     }
 
-    public void isHit_light(Ray ray2){
-        Direction direction = new Direction(transform.multiply(ray2.direction));
-        Point light = new Point(transform.multiply(ray2.eye));
-        ray2.setDirection(direction);
-        ray2.setStart(light);
-        hitinfo = object.isHit(ray2);
+    public Hitinfo isHit_light(Ray ray2){
+        Direction direction2 = new Direction(transform.multiply(ray2.direction));
+        Point hitpoint = new Point(transform.multiply(ray2.eye));
+        return object.isHit(new Ray(direction2, hitpoint));
     }
 
     public ObjectShapeIF getObject() {

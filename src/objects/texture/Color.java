@@ -28,15 +28,26 @@ public class Color{
                 b = 0.3f;
                 break;
             case "red":
-                r = 0.7f;
-                g = 0.2f;
-                b = 0.1f;
+                r = 0.4f;
+                g = 0.1f;
+                b = 0.05f;
+                break;
+            case "grey":
+                r = 0.3f;
+                g = 0.3f;
+                b = 0.3f;
                 break;
             default:
                 r = 1;
                 g = 1;
                 b = 1;
         }
+    }
+
+    public Color(Vector color_vector) {
+        this.r = (float) color_vector.getX();
+        this.g = (float) color_vector.getY();
+        this.b = (float) color_vector.getZ();
     }
 
     public float getR() {

@@ -1,6 +1,7 @@
 package graphics;
 
 import mathematics.Direction;
+import mathematics.Matrix;
 import mathematics.Point;
 import mathematics.Vector;
 import objects.Light;
@@ -8,9 +9,12 @@ import objects.ObjectCol;
 import objects.Ray;
 import objects.texture.Color;
 import objects.texture.Texture;
+import util.HitPoint;
 import util.Hitinfo;
 
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PointPlotter {
 	
@@ -63,35 +67,43 @@ public class PointPlotter {
     }
 
     public double isClosestHit(Ray ray, double bias){
-        for(ObjectCol obj:objects){
-            obj.isHit_light(ray);
-        }
+
         Double lowestT = null;
         for(ObjectCol obj:objects){
-            if ((obj.getHitinfo().closestT() != null && obj.getHitinfo().closestT() >= bias) && (lowestT == null || obj.getHitinfo().closestT()  <= lowestT)){
-                lowestT = obj.getHitinfo().closestT();
+            Hitinfo temp = obj.isHit_light(ray);
+            if ((temp.closestT() != null && temp.closestT() >= bias) && (lowestT == null || temp.closestT()  <= lowestT)){
+                lowestT =temp.closestT();
             }
         }
-//        System.out.println(lowestT);
+
         return lowestT != null ? lowestT:1;
 
     }
 
     public void drawPoint(int y, int x, Texture texture, ObjectCol obj) {
+        if(y == 500 && x == 350){
+            forceUpdate();
+            System.out.println("test");
+        }
+        pointPanel.drawPoint(y, x, Shade(texture, obj).getVector());
+
+    }
+
+    public Color Shade(Texture texture, ObjectCol obj){
         Hitinfo hitinfo = obj.getHitinfo();
         Light light = obj.getLight();
         // The global illumination or the ambient color
         Vector global_Illumination = light.getIntensity().getVector();
 
         // TODO: place inside the material
-        double specularComponent = 0.1;
-        Vector specular = new Vector(0.1, 0.1, 0.1, 0);
+        double specularComponent = 64;
+        Vector specular = new Vector(0.7, 0.7, 0.7, 0);
 
         if (hitinfo.getAmountOfHits() != 0) {// Based on p641
 
 
             // Vector to the viewer.
-            Vector v = obj.ray.getDirection().multiply(1).normalise();
+            Vector v = obj.ray.getDirection().multiply(-1).normalise();
 
             // Set the emissive color of the object
             Vector color_vector = texture.getColor().getVector();
@@ -101,75 +113,46 @@ public class PointPlotter {
 
             // Find the normal
             Direction m = new Direction(obj.getNormal().normalise());
+            assert obj.transform.multiply(obj.transform_original).equals(new Matrix());
+
+            // Check if the normal is ok
+            if(m.dotproduct(obj.ray.getDirection())>0) {
+                m = new Direction(m.multiply(-1));
+            }
 
             // A ray from the hitpoint to the light
-//            Direction s_direction2 =  new Direction(new Direction(new Point(obj.getTransform().multiply(light.getPosition())), new Point(obj.getHitinfo().getPoint())).normalise());
-            Direction s_direction =  new Direction(new Direction(new Point(light.getPosition()), new Point(obj.getHitinfo().getPoint())).normalise());
-            Direction s_direction2 =  new Direction(new Direction(new Point(obj.transform_original.multiply(light.getPosition())), new Point(obj.getHitinfo().getPoint())).normalise());
+            Direction s_direction =  new Direction(new Direction(new Point((light.getPosition())), new Point(obj.getHitinfo().getPoint())).multiply(1));
+            Direction s_direction2 =  new Direction(new Direction(new Point(obj.transform_original.multiply(light.getPosition())), new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint()))));
 
-            if(isClosestHit(new Ray(s_direction2, new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint()))), 0.001)>=1){
+            if(isClosestHit(new Ray(new Direction(s_direction2), new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint()))), 0.0001)>=1){
                 //Find the lambert term
+                s_direction = new Direction(s_direction.normalise());
                 double mDots = s_direction.dotproduct(m);
-                if (mDots>0) {
+                if (mDots>=0) {
                     Vector diffuseColor = obj.getTexture().getDiffuse().multiply(light.getIntensity().getVector()).multiply(mDots); //TODO: Make sure that the diffuse factor is inside the obj class
                     color_vector.add_color(diffuseColor);
                     //Half way vector and a part of the phong term
                     Vector h = v.sum(s_direction).normalise();
                     double mDotH = h.dotproduct(m);
                     if(mDotH>=0){
-                        double phong = Math.pow(mDotH, specularComponent);
-                        Vector specColor = specular.multiply(light.getIntensity().getVector().multiply(phong));
-                        color_vector.add_color(specColor);
+                        double phong = Math.pow(mDotH, obj.getTexture().getSpecularExponent());
+                        Vector specColor = obj.getTexture().getSpecular().multiply(light.intensity.getVector());
+                        color_vector.add_color(specColor.multiply(phong));
                     }
                 }
             }
+            if(obj.texture.getReflectionCoeff()>0.2){
 
-
-
-
-
-
-//        // If the hitpoint is the closest point
-//        if(this.isClosestHit(ray, 0.001)>=1){
-//            double mDots = newDir.dotproduct(normal);
-//            if ( mDots < 0 )
-//                normal = new Direction(normal.multiply( -1 ));
-////
-//            double intensity = mDots / Math.abs(normal.getnorm() * newDir.getnorm());
-//
-//            // Only light up if the hit point is facing the light
-//            if (intensity > 0 ) {
-//                r = (float) (r + Math.max(r * intensity * light.getIntensity().getR(), 0));
-//                g = (float) (g + Math.max(g *intensity * light.getIntensity().getG(), 0));
-//                b = (float) (b + Math.max(b * intensity * light.getIntensity().getB(), 0));
-//            }
-//
-//            // phong
-//            // Halfway vector
-//            Direction halfway = new Direction( newDir.sum(toViewer ).normalise() );
-//            double mDoth = halfway.dotproduct( normal );
-//
-//            if (mDoth > 0) // If the hit point is facing the light
-//            {
-//                double phong = Math.pow(mDoth, 1.0);
-//                r = (float) (r + r * phong * light.getIntensity().getR());
-//                g = (float) (g + g * phong * light.getIntensity().getG());
-//                b = (float) (b + b * phong * light.getIntensity().getB());
-//            }
-//            r = Math.min(r, 1.0f);
-//            g = Math.min(g, 1.0f);
-//            b = Math.min(b, 1.0f);
-//
-            pointPanel.drawPoint(y, x, color_vector);
-//        }
+            }
+            return new Color(color_vector);
         } else { // This means there is no hit so we apply the background color #TODO add background color as a config
             Vector color_vector = new Vector(1.0, 1.0, 1.0, 0);
             color_vector = color_vector.multiply(global_Illumination);
-            pointPanel.drawPoint(y, x, color_vector);
+            return new Color(color_vector);
         }
-
-
     }
+
+
 }
 
 

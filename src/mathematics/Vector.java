@@ -31,12 +31,17 @@ public class Vector {
 
     }
 
+//    public Vector multiply(double j){
+//        double[] newVector = {0, 0, 0, 0};
+//        for (int i = 0; i < 4; i++)
+//            newVector[i] = vector[0]*j +  vector[1]*j +  vector[2]*j +  vector[3]*j;
+//        return new Vector(newVector);
+//    }
     public Vector multiply(double j){
         double[] newVector = {0, 0, 0, 0};
         for (int i = 0; i < 4; i++)
-            newVector[i] = vector[0]*j +  vector[1]*j +  vector[2]*j +  vector[3]*j;
+            newVector[i] = vector[i]*j;
         return new Vector(newVector);
-
     }
 
     public Vector multiply(Vector j){
@@ -135,5 +140,13 @@ public class Vector {
         vector[0] = vector[0] + vector[0] * diffuseColor.getX();
         vector[1] = vector[1] + vector[1] * diffuseColor.getY();
         vector[2] = vector[2] + vector[2] * diffuseColor.getZ();
+    }
+    public void add_phong(Vector specComp) {
+        /**
+         * This add function should only be used for colors.
+         */
+        vector[0] = vector[0] + specComp.getX();
+        vector[1] = vector[1] + specComp.getY();
+        vector[2] = vector[2] + specComp.getZ();
     }
 }

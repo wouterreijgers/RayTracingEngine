@@ -32,13 +32,16 @@ public class Sphere implements ObjectShapeIF{
         int amountOfHits = 2;
         if (discriminant==0)
             amountOfHits = 1;
+//        System.out.println("t1: " + t1);
+//        System.out.println("t2: " + t2);
         if(t1>0){
-            Point p1 = new Point((ray.getStart().getX()+ray.getDirection().getX())*t1, (ray.getStart().getY()+ray.getDirection().getY())*t1, (ray.getStart().getZ()+ray.getDirection().getZ())*t1);
+            Point p1 = new Point((ray.getStart().getX()+ray.getDirection().getX()*t1), (ray.getStart().getY()+ray.getDirection().getY()*t1), (ray.getStart().getZ()+ray.getDirection().getZ()*t1));
+//            System.out.println("Point1: "+p1.getX()+" time "+t1);
             hitinfo.addHit(t1, p1, new Direction(new Direction(p1)));
         }
         if(t2>0){
-            Point p2 = new Point((ray.getStart().getX()+ray.getDirection().getX())*t2, (ray.getStart().getY()+ray.getDirection().getY())*t2, (ray.getStart().getZ()+ray.getDirection().getZ())*t2);
-            System.out.println("Point2: "+p2.getX()+" time "+t2);
+            Point p2 = new Point((ray.getStart().getX()+ray.getDirection().getX()*t2), (ray.getStart().getY()+ray.getDirection().getY()*t2), (ray.getStart().getZ()+ray.getDirection().getZ()*t2));
+//            System.out.println("Point2: "+p2.getX()+" time "+t2);
             hitinfo.addHit(t2, p2, new Direction(new Direction(p2)));
         }
 
