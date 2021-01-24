@@ -43,6 +43,8 @@ public class Pyramid implements ObjectShapeIF{
             hitinfo.addHit(t, p, new Direction(0, -1, -1));
         }
 //        System.out.println(hitinfo.getAmountOfHits());
+        hitinfo.fillCache();
+
         return hitinfo;
 
     }

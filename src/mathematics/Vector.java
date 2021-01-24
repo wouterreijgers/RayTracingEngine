@@ -95,7 +95,7 @@ public class Vector {
     }
 
     public Vector substract(Vector arg) {
-        return new Vector(vector[0]-arg.getX(), vector[0]-arg.getY(), vector[0]-arg.getZ(), vector[3]-arg.getA());
+        return new Vector(vector[0]-arg.getX(), vector[1]-arg.getY(), vector[2]-arg.getZ(), vector[3]-arg.getA());
     }
 
     public void setX(double a){

@@ -16,6 +16,8 @@ public class Plane implements ObjectShapeIF {
             hitinfo.addHit(t, p, new Direction(0, 0, -1));
 
         }
-    return hitinfo;
+        hitinfo.fillCache();
+
+        return hitinfo;
     }
 }

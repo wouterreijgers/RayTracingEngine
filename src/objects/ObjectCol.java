@@ -39,9 +39,14 @@ public class ObjectCol{
         this.name = name;
     }
 
-    public ObjectCol(ObjectCol object) {
-        this(object.name, object.object, object.transform, object.hitinfo, object.eye, object.texture);
+    public ObjectCol(ObjectCol object, Hitinfo hitinfo, Ray ray) {
+        this(object.name, object.object, object.transform, hitinfo, ray.eye , object.texture);
+        this.transform_original = object.transform_original;
         this.light = object.light;
+    }
+
+    public ObjectCol() {
+
     }
 
     public void isHit(Vector vec){
@@ -82,7 +87,7 @@ public class ObjectCol{
 
     public void inverses() {
         this.transform = transform.getInverse();
-        this.light = new Light(new Point(transform.multiply(light.getPosition())),  new Color(1, 1, 1));
+        this.light = new Light(new Point(transform.multiply(light.getPosition())),  light.getIntensity());
         this.eye = new Point(transform.multiply(eye.getVector()));
         this.ray.setStart(eye);
     }

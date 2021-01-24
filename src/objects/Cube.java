@@ -53,6 +53,7 @@ public class Cube implements ObjectShapeIF{
             hitinfo.addHit(t, p, new Direction(0, 0, -1));
 
 //        System.out.println(hitinfo.getAmountOfHits());
+        hitinfo.fillCache();
         return hitinfo;
 
     }

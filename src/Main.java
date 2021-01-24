@@ -14,7 +14,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		// Define window size;
-		ObjectCol[] objects = new ObjectCol[5];
+		ObjectCol[] objects = new ObjectCol[6];
 		int nRows = 900;
 		int nCols = 900;
 
@@ -25,15 +25,15 @@ public class Main {
 
 		// OBJECTS
 		objects[0] = new ObjectCol(
-				"Cube",
+				"CubeBig",
 				new Cube(),
 				new MatrixFactory().translationMatrix(0, 0, -1)
 						.multiply(new MatrixFactory().rotationMatrix("Z", Math.PI/4))
-						.multiply(new MatrixFactory().scalingMatrix(10, 10, 4)),
+						.multiply(new MatrixFactory().scalingMatrix(10, 10, 10)),
 				//.multiply(new MatrixFactory().)
 				new Hitinfo(),
 				eye,
-				new Texture(new Color(0.38f, 0.48f, 0.3f), new Vector(0.5, 0.5, 0.5, 0), new Vector(0.1, 0.1, 0.1, 0), 2.0, 0.4)
+				new Texture(new Color(0.1f, 0.3f, 0.1f), new Vector(0.3, 0.3, 0.3, 0), new Vector(0.2, 0.2, 0.2, 0), 0.9, 0.1001, 0.0)
 		);
 		objects[1] = new ObjectCol(
 				"Bol 1-mat",
@@ -41,12 +41,12 @@ public class Main {
 				new MatrixFactory()
 						.scalingMatrix(0.5, 0.5, 0.5)
 						//.multiply(new MatrixFactory().rotationMatrix("Y", Math.PI / 12))
-						.multiply(new MatrixFactory().rotationMatrix("Z", Math.PI))
-						.multiply(new MatrixFactory().translationMatrix(0, -1.3, -.5)),
+						.multiply(new MatrixFactory().rotationMatrix("Z", 2*Math.PI))
+						.multiply(new MatrixFactory().translationMatrix(-3, 1, -.5)),
 //						.multiply(new MatrixFactory().rotationMatrix("Y", Math.PI / 4 )),
 				new Hitinfo(),
 				eye,
-				new Texture(new Color(0.3f, 0.2f, 0.3f), new Vector(0.4, 0.4, 0.4, 0), new Vector(0.2, 0.2, 0.2, 0), 2.0, 0.0)
+				new Texture(new Color(0.3f, 0.2f, 0.3f), new Vector(0.4, 0.4, 0.4, 0), new Vector(0.2, 0.2, 0.2, 0), 2.0, 0.05, 0.0)
 		);
 		objects[2] = new ObjectCol(
 				"Bol 2-glim",
@@ -57,32 +57,43 @@ public class Main {
 				//.multiply(new MatrixFactory().)
 				new Hitinfo(),
 				eye,
-				new Texture(new Color(0.1f, 0.1f, 0.1f), new Vector(0.2, 0.2, 0.2, 0), new Vector(0.4, 0.4, 0.4, 0), 3.0, 0.0)
+				new Texture(new Color("grey"), new Vector(0.4, 0.4, 0.4, 0), new Vector(0.1, 0.1, 0.1, 0), 0.1, 1.0, 0.0)
 		);
 		objects[3] = new ObjectCol(
 				"Pyramide",
 				new Pyramid(),
-				new MatrixFactory().translationMatrix(-1.5, 1.3, 0)
-						.multiply(new MatrixFactory().rotationMatrix("Z", Math.PI/4))
-						.multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 1)),
+				new MatrixFactory().translationMatrix(2.5, 1.3, 0)
+						.multiply(new MatrixFactory().rotationMatrix("Z", 2*Math.PI/4))
+						.multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 0.707)),
 				//.multiply(new MatrixFactory().)
 				new Hitinfo(),
 				eye,
-				new Texture(new Color(0.3f, 0.2f, 0.6f), new Vector(0.4, 0.4, 0.4, 0), new Vector(0.1, 0.1, 0.1, 0), 2.0, 0.0)
+				new Texture(new Color(0.3f, 0.2f, 0.1f), new Vector(0.2, 0.2, 0.2, 0), new Vector(0.1, 0.1, 0.1,0), 2.0, 0.05, 0.0)
 		);
 		objects[4] = new ObjectCol(
-				"Cube",
-				new Cube(),
-				new MatrixFactory().translationMatrix(-1, -2.5, -1)
-						.multiply(new MatrixFactory().rotationMatrix("Z", Math.PI/4))
+				"Glass",
+				new Sphere(),
+				new MatrixFactory().translationMatrix(2, 2, -1)
+//						.multiply(new MatrixFactory().rotationMatrix("Z", Math.PI/8))
 						.multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 0.5)),
 				//.multiply(new MatrixFactory().)
 				new Hitinfo(),
 				eye,
-				new Texture(new Color("grey"), new Vector(0.2, 0.2, 0.2, 0), new Vector(0.1, 0.1, 0.1, 0), 0.3, 0.65)
+				new Texture(new Color("grey"), new Vector(0.3, 0.3, 0.3, 0), new Vector(0.0, 0.0, 0.0, 0), 0.20, 0.1, 0.9)
+		);
+		objects[5] = new ObjectCol(
+				"Pyramide",
+				new Cube(),
+				new MatrixFactory().rotationMatrix("Z", 2*Math.PI/4)
+						.multiply(new MatrixFactory().translationMatrix(-3, -1, 0))
+						.multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 1)),
+				//.multiply(new MatrixFactory().)
+				new Hitinfo(),
+				eye,
+				new Texture(new Color(0.3f, 0.2f, 0.4f), new Vector(0.2, 0.2, 0.2, 0), new Vector(0.3, 0.3, 0.3,0), 2.0, 0.0, 0.0)
 		);
 
-		Light light = new Light(new Point(4, 1.3, -2), new Color(1f, 1f, 1f));
+		Light light = new Light(new Point(4, 2, -2), new Color(1f, 1f, 1f));
 		for(ObjectCol obj:objects){
 			obj.setLight(light);
 			obj.inverses();

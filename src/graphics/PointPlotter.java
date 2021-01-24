@@ -21,7 +21,12 @@ public class PointPlotter {
     private final PointPanel pointPanel;
     private ObjectCol[] objects;
     private Light light_original;
-    private Double maxRecursionLevel;
+    private int maxrecursionLevelReflect;
+    private int recursionLevelReflect;
+    private int maxrecursionLevelRefract;
+    private int recursionLevelRefract;
+    private int x;
+    private int y;
 
     public PointPlotter(int width, int heigth, ObjectCol[] objects) {
     	 pointPanel = new PointPanel(width, heigth);
@@ -32,6 +37,7 @@ public class PointPlotter {
          frame.pack();
          frame.setVisible(true);
          this.objects = objects;
+
     	
     }
 
@@ -82,15 +88,18 @@ public class PointPlotter {
     }
 
     public void drawPoint(int y, int x, Texture texture, ObjectCol obj) {
-        this.maxRecursionLevel = 4.0;
-        if(y == 200 && x == 450){
+        this.maxrecursionLevelReflect = 5;
+        this.recursionLevelReflect = 0;
+        this.maxrecursionLevelRefract = 5;
+        this.recursionLevelRefract = 0;
+        this.x = x;
+        this.y = y;
+        if(y == 450 && x == 450){
             forceUpdate();
             System.out.println("test");
         }
+        obj.ray.setInside(false);
         pointPanel.drawPoint(y, x, Shade(texture, obj, obj.ray).getVector());
-        for(ObjectCol object:objects){
-            object.ray.recurseLevel = 0.0;
-        }
     }
 
     public Color Shade(Texture texture, ObjectCol obj, Ray r){
@@ -98,16 +107,14 @@ public class PointPlotter {
         Light light = obj.getLight();
         // The global illumination or the ambient color
         Vector global_Illumination = light.getIntensity().getVector();
-
         if (hitinfo.getAmountOfHits() != 0) {// Based on p641
 
 
             // Vector to the viewer.
-            Vector v = obj.ray.getDirection().multiply(-1).normalise();
+            Vector v = r.getDirection().multiply(-1).normalise();
 
             // Set the emissive color of the object
             Vector color_vector = texture.getColor().getVector();
-
             // Ambient -> Based on the global illumination.
             color_vector = color_vector.multiply(global_Illumination);
 
@@ -116,14 +123,13 @@ public class PointPlotter {
             assert obj.transform.multiply(obj.transform_original).equals(new Matrix());
 
             // Check if the normal is ok
-            if(m.dotproduct(obj.ray.getDirection())>0) {
+            if(m.dotproduct(r.getDirection())>0 && obj.name.equals("CubeBig")) {
                 m = new Direction(m.multiply(-1));
             }
 
             // A ray from the hitpoint to the light
             Direction s_direction =  new Direction(new Direction(new Point((light.getPosition())), new Point(obj.getHitinfo().getPoint())).multiply(1));
             Direction s_direction2 =  new Direction(new Direction(new Point(obj.transform_original.multiply(light.getPosition())), new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint()))));
-
             if(isClosestHit(new Ray(new Direction(s_direction2), new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint()))), 0.0001)>=1){
                 //Find the lambert term
                 s_direction = new Direction(s_direction.normalise());
@@ -138,55 +144,99 @@ public class PointPlotter {
                         double phong = Math.pow(mDotH, obj.getTexture().getSpecularExponent());
                         Vector specColor = obj.getTexture().getSpecular().multiply(light.intensity.getVector());
                         color_vector.add_color(specColor.multiply(phong));
+
                     }
                 }
             }
-            if(r.recurseLevel.equals(maxRecursionLevel)){
+            if(this.recursionLevelReflect>=this.maxrecursionLevelReflect || this.recursionLevelRefract>=this.maxrecursionLevelRefract){
                 return new Color(color_vector);
             }
-            if(obj.texture.getReflectionCoeff()>0.6){
-                r.recurseLevel += 1;
-                if(r.recurseLevel>1){
-                    System.out.println("test");
+            Boolean reflect = false;
+            if(obj.texture.getTransparencyCoeff()>0.2) {
+                double c1 = 300000;
+                double c2 = 0.66*c1;
+                double criticAngle = 0.44;
+                double refractionIndex = 0;
+                if (r.getInside()) {
+                    refractionIndex = c1 / c2;
+                    r.setInside(false);
+                    m = new Direction(m.multiply(-1));
+                } else {
+                    refractionIndex = c2 / c1;
+                    r.setInside(true);
                 }
-//                Direction reflectionDir = new Direction(new Direction(obj.transform_original.multiply(r.getDirection()).substract(m.multiply(m.multiply(obj.transform_original.multiply(r.getDirection()).multiply(2))))).normalise());
 
-                // Find reflection dir
-                Vector dir = obj.getTransform().multiply(r.direction).normalise().multiply(1);
-                Vector a = m.multiply(dir.dotproduct(m)*(2));
-                Direction reflectionDir = new Direction(dir.substract(a).normalise());
-
-                Ray reflectionRay = new Ray(new Direction(v.multiply(-1)),  new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint())));
-                reflectionRay.recurseLevel = r.recurseLevel;
-                ObjectCol[] objectsRecursion = new ObjectCol[objects.length-1];
-                int i=0;
-                for(ObjectCol object:objects){
-                    if(!obj.equals(object)) {
-                        objectsRecursion[i] = new ObjectCol(object);
-                        objectsRecursion[i].eye = new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint()));
-//                        System.out.println("Object: " + obj.name);
-                        objectsRecursion[i].inverses();
-                        objectsRecursion[i].isHit(reflectionDir);
-                        i+=1;
+                Vector dir = r.getDirection().multiply(-1).normalise();
+                double dotProd = m.dotproduct(dir);
+                double cos = 1 - ((refractionIndex * refractionIndex) * (1 - (dotProd * dotProd)));
+                Vector t = new Vector();
+                if (cos > 0.01) {
+                    double cosSqrt = Math.sqrt(cos);
+                    double prod = (refractionIndex * dotProd) - cosSqrt;
+                    Vector t_1 = dir.multiply(refractionIndex);
+                    Vector t_2 = m.multiply(prod);
+                    t = t_2.sum(t_1.multiply(-1));
+                    Ray refract = new Ray(
+                            new Direction(obj.transform_original.multiply(t)),
+                            new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint())), r.getInside());
+                    double lowestT = Double.POSITIVE_INFINITY;
+                    ObjectCol closestObj = new ObjectCol();
+                    for (ObjectCol object : objects) {
+                        if (refract.eye == null) {
+                            System.out.println("hit.closestT()");
+                        }
+                        Hitinfo hit = object.isHit_light(refract);
+                        //                    System.out.println(hit.closestT());
+                        if (hit.getAmountOfHits() > 0) {
+                            if (hit.closestT() < lowestT) {
+                                lowestT = hit.closestT();
+                                closestObj = new ObjectCol(object, hit, refract);
+                            }
+                        }
                     }
+                    if (closestObj.getHitinfo() == null) {
+                        return new Color(color_vector);
+                    }
+                    this.recursionLevelRefract += 1;
+                    Ray reflTransform = new Ray(new Direction(closestObj.transform.multiply(refract.direction)), new Point(obj.transform.multiply(refract.eye)), refract.getInside());
+                    closestObj.eye = reflTransform.eye;
+                    closestObj.ray.direction = reflTransform.direction;
+                    color_vector = color_vector.multiply(1 - obj.getTexture().getTransparencyCoeff()).sum(Shade(closestObj.getTexture(), closestObj, reflTransform).getVector().multiply(obj.getTexture().getTransparencyCoeff()));
                 }
+                else{
+                    reflect = true;
+                }
+            }
+            if(obj.texture.getReflectionCoeff()>0.01 || reflect){
+                Vector dir = r.getDirection();
+                double dotProd = dir.dotproduct(m);
+                Vector rightPart = m.multiply(2*dotProd);
+                Vector rDir = dir.substract(rightPart);
+                Ray refl = new Ray(
+                        new Direction(obj.transform_original.multiply(rDir)),
+                        new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint())));
                 double lowestT = Double.POSITIVE_INFINITY;
-                ObjectCol closestObj = objects[0];
-                for(ObjectCol object:objectsRecursion){
-                    if(object.getHitinfo().getAmountOfHits()>0){
-                        if(object.getHitinfo().closestT()<lowestT) {
-                            lowestT = object.getHitinfo().closestT();
-                            closestObj = object;
+                ObjectCol closestObj = new ObjectCol();
+                for(ObjectCol object: objects){
+                    Hitinfo hit = object.isHit_light(refl);
+//                    System.out.println(hit.closestT());
+                    if(hit.getAmountOfHits()>0){
+                        if (hit.closestT()<lowestT){
+                            lowestT = hit.closestT();
+                            closestObj = new ObjectCol(object, hit, refl);
                         }
                     }
                 }
-                color_vector.add_color(Shade(closestObj.getTexture(), closestObj, reflectionRay).getVector().multiply(obj.getTexture().getReflectionCoeff()));
-                i += 1;
-
+                if(closestObj.getHitinfo()==null){
+//                    System.out.println("stop");
+                    return new Color(color_vector);
+                }
+                this.recursionLevelReflect +=1;
+                Ray reflTransform = new Ray(new Direction(closestObj.transform.multiply(refl.direction)), new Point(obj.transform.multiply(refl.eye)));
+                closestObj.eye = reflTransform.eye;
+                closestObj.ray.direction = reflTransform.direction;
+                color_vector = color_vector.multiply(1-obj.getTexture().getReflectionCoeff()).sum(Shade(closestObj.getTexture(), closestObj, reflTransform).getVector().multiply(obj.getTexture().getReflectionCoeff()));
             }
-//            if(obj.texture.getTransparency()>0.5){
-//
-//            }
             return new Color(color_vector);
         } else { // This means there is no hit so we apply the background color #TODO add background color as a config
             Vector color_vector = new Vector(1.0, 1.0, 1.0, 0);

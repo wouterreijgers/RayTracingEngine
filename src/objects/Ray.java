@@ -7,20 +7,33 @@ import mathematics.Vector;
 public class Ray {
     public Direction direction;
     public Point eye;
-    public Double recurseLevel;
+    public Boolean isInside;
 
     public Ray (){
         this.direction = null;
         this.eye = null;
-        this.recurseLevel = 0.0;
+        this.isInside = false;
     }
     public Ray (Direction direction, Point eye){
         this.direction = direction;
         this.eye = eye;
-        this.recurseLevel = 0.0;
+        this.isInside = false;
 
     }
 
+    public Ray(Direction direction, Point point, Boolean inside) {
+        this.direction = direction;
+        this.eye = point;
+        this.isInside = inside;
+    }
+
+    public Boolean getInside() {
+        return isInside;
+    }
+
+    public void setInside(Boolean inside) {
+        isInside = inside;
+    }
 
     public void setStart(Point eye) {
         this.eye = eye;

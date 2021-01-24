@@ -8,16 +8,18 @@ public class Texture {
     public Vector specular;
     public Double specularExponent;
     public Double reflectionCoeff;
+    public Double transparencyCoeff;
 
     public Texture(){
     }
 
-    public Texture(Color color, Vector diffuse, Vector specular, Double specularExponent, Double reflectionCoeff){
+    public Texture(Color color, Vector diffuse, Vector specular, Double specularExponent, Double reflectionCoeff, Double transparencyCoeff){
         this.color = color;
         this.diffuse = diffuse;
         this.specular = specular;
         this.specularExponent = specularExponent;
         this.reflectionCoeff = reflectionCoeff;
+        this.transparencyCoeff = transparencyCoeff;
     }
 
     public Vector getSpecular() {
@@ -58,5 +60,13 @@ public class Texture {
 
     public void setDiffuse(Vector diffuse) {
         this.diffuse = diffuse;
+    }
+
+    public Double getTransparencyCoeff() {
+        return transparencyCoeff;
+    }
+
+    public void setTransparencyCoeff(Double transparencyCoeff) {
+        this.transparencyCoeff = transparencyCoeff;
     }
 }

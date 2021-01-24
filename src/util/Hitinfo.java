@@ -11,6 +11,10 @@ import java.util.Set;
 public class Hitinfo {
 
     Map<Double, HitPoint> hitlist = new HashMap<Double, HitPoint>(); // double = Hit time, Hitpoint contains more information about the point.
+    public double closestT;
+    public Direction normal;
+    public Point point;
+
 
     public Hitinfo(){
     }
@@ -24,48 +28,36 @@ public class Hitinfo {
         return hitlist.size();
     }
 
-    public Double closestT() {
-        if(hitlist.size()==0)
-            return null;
-        double lowestT = Double.POSITIVE_INFINITY;
-        for ( Map.Entry<Double, HitPoint> entry : hitlist.entrySet()) {
-            double key = entry.getKey();
-            if(key<=lowestT)
-                lowestT = key;
+    public void fillCache(){
+        if(hitlist.size()!=0){
+            double lowestT = Double.POSITIVE_INFINITY;
+            HitPoint lowestHit = new HitPoint();
+            for ( Map.Entry<Double, HitPoint> entry : hitlist.entrySet()) {
+                double key = entry.getKey();
+                HitPoint value = entry.getValue();
+                if(key<=lowestT && key>0.0001){
+                    lowestT = key;
+                    lowestHit = value;
+                }
+            }
+            this.closestT = lowestT;
+            this.normal = lowestHit.getNormal();
+            this.point = lowestHit.getPoint();
         }
-        return lowestT;
+    }
+
+    public Double closestT() {
+        return closestT;
+
     }
 
     public Direction getNormal() {
-        if(hitlist.size()==0)
-            return null;
-        double lowestT = Double.POSITIVE_INFINITY;
-        HitPoint lowestHit = new HitPoint();
-        for ( Map.Entry<Double, HitPoint> entry : hitlist.entrySet()) {
-            double key = entry.getKey();
-            HitPoint value = entry.getValue();
-            if(key<=lowestT) {
-                lowestT = key;
-                lowestHit = value;
-            }
-        }
-        return lowestHit.getNormal();
+        return normal;
+
     }
 
     public Point getPoint() {
-        if(hitlist.size()==0)
-            return null;
-        double lowestT = Double.POSITIVE_INFINITY;
-        HitPoint lowestHit = new HitPoint();
-        for ( Map.Entry<Double, HitPoint> entry : hitlist.entrySet()) {
-            double key = entry.getKey();
-            HitPoint value = entry.getValue();
-            if(key<=lowestT) {
-                lowestT = key;
-                lowestHit = value;
-            }
-        }
-        return lowestHit.getPoint();
+        return point;
     }
 }
 

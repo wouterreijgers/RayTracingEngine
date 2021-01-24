@@ -44,6 +44,7 @@ public class Sphere implements ObjectShapeIF{
 //            System.out.println("Point2: "+p2.getX()+" time "+t2);
             hitinfo.addHit(t2, p2, new Direction(new Direction(p2)));
         }
+        hitinfo.fillCache();
 
         return hitinfo;
     }

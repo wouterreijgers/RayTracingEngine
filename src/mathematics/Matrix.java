@@ -133,6 +133,15 @@ public class Matrix {
 		return new Vector(newVector);
 	}
 
+	public Matrix transpose()
+	{
+		double[][] newMatrix = new double[this.matrix[0].length][this.matrix.length];
+		for (int i = 0; i < this.matrix.length; i++)
+			for (int j = 0; j < this.matrix[0].length; j++)
+				newMatrix[j][i] = this.matrix[i][j];
+		return new Matrix( newMatrix );
+	}
+
 	public Matrix getInverse(){
 		double determinant=0;
 		double A2[][] = {

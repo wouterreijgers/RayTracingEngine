@@ -29,7 +29,7 @@ class HitTest {
                 //.multiply(new MatrixFactory().rotationMatrix("Y", Math.PI / 4 )),
                 new Hitinfo(),
                 eye,
-                new Texture(new Color(0.3f, 0.2f, 0.3f), new Vector(0.5, 0.5, 0.5, 0), new Vector(0.1, 0.1, 0.1, 0), 64.0, 0.0)
+                new Texture(new Color(0.3f, 0.2f, 0.3f), new Vector(0.5, 0.5, 0.5, 0), new Vector(0.1, 0.1, 0.1, 0), 64.0, 0.0, 0.0)
         );
         object.inverses();
         object.isHit(direction);
