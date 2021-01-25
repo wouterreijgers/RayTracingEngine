@@ -13,6 +13,7 @@ import util.HitPoint;
 import util.Hitinfo;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class PointPlotter {
     private int x;
     private int y;
 
-    public PointPlotter(int width, int heigth, ObjectCol[] objects) {
+    public PointPlotter(int width, int heigth, ObjectCol[] objects, int maxrecursionLevelReflect, int maxrecursionLevelRefract) {
     	 pointPanel = new PointPanel(width, heigth);
 
          JFrame frame = new JFrame("Ray tracing");
@@ -37,8 +38,14 @@ public class PointPlotter {
          frame.pack();
          frame.setVisible(true);
          this.objects = objects;
+         this.maxrecursionLevelReflect = maxrecursionLevelReflect;
+         this.maxrecursionLevelRefract = maxrecursionLevelRefract;
 
     	
+    }
+
+    public PointPanel getPointPanel() {
+        return pointPanel;
     }
 
     public void setLight(Light light) {
@@ -88,16 +95,16 @@ public class PointPlotter {
     }
 
     public void drawPoint(int y, int x, Texture texture, ObjectCol obj) {
-        this.maxrecursionLevelReflect = 5;
+//        this.maxrecursionLevelReflect = 4;
         this.recursionLevelReflect = 0;
-        this.maxrecursionLevelRefract = 5;
+//        this.maxrecursionLevelRefract = 4;
         this.recursionLevelRefract = 0;
         this.x = x;
         this.y = y;
-        if(y == 450 && x == 450){
-            forceUpdate();
-            System.out.println("test");
-        }
+//        if(y == 450 && x == 450){
+////            forceUpdate();
+//            System.out.println("test");
+//        }
         obj.ray.setInside(false);
         pointPanel.drawPoint(y, x, Shade(texture, obj, obj.ray).getVector());
     }
@@ -114,7 +121,16 @@ public class PointPlotter {
             Vector v = r.getDirection().multiply(-1).normalise();
 
             // Set the emissive color of the object
-            Vector color_vector = texture.getColor().getVector();
+            Vector color_vector = null;
+            try {
+                color_vector = obj.texture.getColor(obj.hitinfo.getPoint().getX(), obj.hitinfo.getPoint().getY(), obj.hitinfo.getPoint().getZ(), obj.hitinfo.getNormal());
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+
+
+
+
             // Ambient -> Based on the global illumination.
             color_vector = color_vector.multiply(global_Illumination);
 
@@ -154,8 +170,8 @@ public class PointPlotter {
             Boolean reflect = false;
             if(obj.texture.getTransparencyCoeff()>0.2) {
                 double c1 = 300000;
-                double c2 = 0.66*c1;
-                double criticAngle = 0.44;
+                double c2 = obj.getTexture().getC2();
+                double criticAngle = obj.getTexture().getCriticAngle();
                 double refractionIndex = 0;
                 if (r.getInside()) {
                     refractionIndex = c1 / c2;
@@ -170,7 +186,7 @@ public class PointPlotter {
                 double dotProd = m.dotproduct(dir);
                 double cos = 1 - ((refractionIndex * refractionIndex) * (1 - (dotProd * dotProd)));
                 Vector t = new Vector();
-                if (cos > 0.01) {
+                if (cos > criticAngle) {
                     double cosSqrt = Math.sqrt(cos);
                     double prod = (refractionIndex * dotProd) - cosSqrt;
                     Vector t_1 = dir.multiply(refractionIndex);
@@ -246,6 +262,11 @@ public class PointPlotter {
     }
 
 
+    public void clear() {
+        pointPanel.clear();
+        this.x = 0;
+        this.y = 0;
+    }
 }
 
 

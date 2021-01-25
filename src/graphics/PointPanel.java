@@ -1,5 +1,6 @@
 package graphics;
 
+import mathematics.Matrix;
 import mathematics.Vector;
 
 import javax.swing.*;
@@ -12,12 +13,17 @@ public class PointPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final BufferedImage frame;
+	private BufferedImage frame;
+	public Color[][] matrix;
+	public int width, heigth;
 
     public PointPanel(int width, int heigth) {
         super(true);
         frame = new BufferedImage(width, heigth, BufferedImage.TYPE_INT_RGB);
         this.setPreferredSize(new Dimension(frame.getWidth(), frame.getHeight()));
+        this.matrix = new Color[width][heigth];
+        this.width = width;
+        this.heigth = heigth;
     }
 
 
@@ -48,11 +54,21 @@ public class PointPanel extends JPanel {
             System.out.println("ERROR, B out of range, max should be 1.0f but is " + color.getZ());
             color.setZ(1.0f);
         }
+        matrix[x][y] = new Color((float)color.getX(), (float)color.getY(), (float)color.getZ());
         frame.setRGB(x, y, new Color((float)color.getX(), (float)color.getY(), (float)color.getZ()).getRGB());
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         g.drawImage(frame, 0, 0, this.getWidth(), this.getHeight(), null);
+    }
+
+    public Color[][] getMatrix() {
+        return matrix;
+    }
+
+    public void clear() {
+        this.frame = new BufferedImage(width, heigth, BufferedImage.TYPE_INT_RGB);
+        this.matrix = new Color[width][heigth] ;
     }
 }
