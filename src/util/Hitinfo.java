@@ -14,6 +14,7 @@ public class Hitinfo {
     public double closestT;
     public Direction normal;
     public Point point;
+    public Boolean isInside;
 
 
     public Hitinfo(){
@@ -29,12 +30,16 @@ public class Hitinfo {
     }
 
     public void fillCache(){
+        isInside = false;
         if(hitlist.size()!=0){
             double lowestT = Double.POSITIVE_INFINITY;
             HitPoint lowestHit = new HitPoint();
             for ( Map.Entry<Double, HitPoint> entry : hitlist.entrySet()) {
                 double key = entry.getKey();
                 HitPoint value = entry.getValue();
+                if(key<0 || hitlist.size()==1){
+                    isInside = true;
+                }
                 if(key<=lowestT && key>0.0001){
                     lowestT = key;
                     lowestHit = value;

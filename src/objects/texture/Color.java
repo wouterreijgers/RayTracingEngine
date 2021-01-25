@@ -37,6 +37,11 @@ public class Color{
                 g = 0.3f;
                 b = 0.3f;
                 break;
+            case "white>":
+                r = 0.5f;
+                g = 0.5f;
+                b = 0.5f;
+                break;
             default:
                 r = 1;
                 g = 1;

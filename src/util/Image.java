@@ -54,7 +54,7 @@ public class Image {
             System.err.println("Cannot build media locator from: " + fileName);
             System.exit(0);
         }
-        int interval = 50;
-        imageToMovie.doIt(900, 900, (1000 / interval), imgLst, oml);
+        int interval = 30;
+        imageToMovie.doIt(1080, 1080, (1000 / interval), imgLst, oml);
     }
 }

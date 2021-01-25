@@ -21,13 +21,10 @@ public class PointPlotter {
 	
     private final PointPanel pointPanel;
     private ObjectCol[] objects;
-    private Light light_original;
     private int maxrecursionLevelReflect;
     private int recursionLevelReflect;
     private int maxrecursionLevelRefract;
     private int recursionLevelRefract;
-    private int x;
-    private int y;
 
     public PointPlotter(int width, int heigth, ObjectCol[] objects, int maxrecursionLevelReflect, int maxrecursionLevelRefract) {
     	 pointPanel = new PointPanel(width, heigth);
@@ -48,9 +45,6 @@ public class PointPlotter {
         return pointPanel;
     }
 
-    public void setLight(Light light) {
-        this.light_original = light;
-    }
 
     /**
      * Draws a white dot at the specified location
@@ -83,30 +77,30 @@ public class PointPlotter {
     public double isClosestHit(Ray ray, double bias){
 
         Double lowestT = null;
+        ObjectCol hitObj = null;
         for(ObjectCol obj:objects){
             Hitinfo temp = obj.isHit_light(ray);
             if ((temp.closestT() != null && temp.closestT() >= bias) && (lowestT == null || temp.closestT()  <= lowestT)){
                 lowestT =temp.closestT();
+                hitObj = obj;
             }
         }
-
-        return lowestT != null ? lowestT:1;
-
+        if(lowestT!=null && lowestT<1){
+            return hitObj.getTexture().transparencyCoeff*hitObj.getTexture().transparencyCoeff;
+        } else {
+            return 1;
+        }
     }
 
     public void drawPoint(int y, int x, Texture texture, ObjectCol obj) {
-//        this.maxrecursionLevelReflect = 4;
         this.recursionLevelReflect = 0;
-//        this.maxrecursionLevelRefract = 4;
         this.recursionLevelRefract = 0;
-        this.x = x;
-        this.y = y;
 //        if(y == 450 && x == 450){
 ////            forceUpdate();
 //            System.out.println("test");
 //        }
         obj.ray.setInside(false);
-        pointPanel.drawPoint(y, x, Shade(texture, obj, obj.ray).getVector());
+        //pointPanel.drawPoint(y, x, Shade(texture, obj, obj.ray).getVector());
     }
 
     public Color Shade(Texture texture, ObjectCol obj, Ray r){
@@ -129,8 +123,6 @@ public class PointPlotter {
             }
 
 
-
-
             // Ambient -> Based on the global illumination.
             color_vector = color_vector.multiply(global_Illumination);
 
@@ -146,24 +138,24 @@ public class PointPlotter {
             // A ray from the hitpoint to the light
             Direction s_direction =  new Direction(new Direction(new Point((light.getPosition())), new Point(obj.getHitinfo().getPoint())).multiply(1));
             Direction s_direction2 =  new Direction(new Direction(new Point(obj.transform_original.multiply(light.getPosition())), new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint()))));
-            if(isClosestHit(new Ray(new Direction(s_direction2), new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint()))), 0.0001)>=1){
+            double transpOtherObj = isClosestHit(new Ray(new Direction(s_direction2), new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint()))), 0.0001);
+//            if(isClosestHit(new Ray(new Direction(s_direction2), new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint()))), 0.0001)>=1){
                 //Find the lambert term
-                s_direction = new Direction(s_direction.normalise());
-                double mDots = s_direction.dotproduct(m);
-                if (mDots>=0) {
-                    Vector diffuseColor = obj.getTexture().getDiffuse().multiply(light.getIntensity().getVector()).multiply(mDots); //TODO: Make sure that the diffuse factor is inside the obj class
-                    color_vector.add_color(diffuseColor);
-                    //Half way vector and a part of the phong term
-                    Vector h = v.sum(s_direction).normalise();
-                    double mDotH = h.dotproduct(m);
-                    if(mDotH>=0){
-                        double phong = Math.pow(mDotH, obj.getTexture().getSpecularExponent());
-                        Vector specColor = obj.getTexture().getSpecular().multiply(light.intensity.getVector());
-                        color_vector.add_color(specColor.multiply(phong));
-
-                    }
+            s_direction = new Direction(s_direction.normalise());
+            double mDots = s_direction.dotproduct(m);
+            if (mDots>=0) {
+                Vector diffuseColor = obj.getTexture().getDiffuse().multiply(light.getIntensity().getVector()).multiply(mDots); //TODO: Make sure that the diffuse factor is inside the obj class
+                color_vector.add_color(diffuseColor.multiply(transpOtherObj));
+                //Half way vector and a part of the phong term
+                Vector h = v.sum(s_direction).normalise();
+                double mDotH = h.dotproduct(m);
+                if(mDotH>=0){
+                    double phong = Math.pow(mDotH, obj.getTexture().getSpecularExponent());
+                    Vector specColor = obj.getTexture().getSpecular().multiply(light.intensity.getVector());
+                    color_vector.add_color(specColor.multiply(phong).multiply(transpOtherObj));
                 }
             }
+//            }
             if(this.recursionLevelReflect>=this.maxrecursionLevelReflect || this.recursionLevelRefract>=this.maxrecursionLevelRefract){
                 return new Color(color_vector);
             }
@@ -177,9 +169,11 @@ public class PointPlotter {
                     refractionIndex = c1 / c2;
                     r.setInside(false);
                     m = new Direction(m.multiply(-1));
+                    r.exitOldObject(obj);
                 } else {
                     refractionIndex = c2 / c1;
                     r.setInside(true);
+                    r.enterNewObject(obj);
                 }
 
                 Vector dir = r.getDirection().multiply(-1).normalise();
@@ -194,7 +188,7 @@ public class PointPlotter {
                     t = t_2.sum(t_1.multiply(-1));
                     Ray refract = new Ray(
                             new Direction(obj.transform_original.multiply(t)),
-                            new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint())), r.getInside());
+                            new Point(obj.transform_original.multiply(obj.getHitinfo().getPoint())), r.getInside(), r.getInsideArray());
                     double lowestT = Double.POSITIVE_INFINITY;
                     ObjectCol closestObj = new ObjectCol();
                     for (ObjectCol object : objects) {
@@ -214,7 +208,7 @@ public class PointPlotter {
                         return new Color(color_vector);
                     }
                     this.recursionLevelRefract += 1;
-                    Ray reflTransform = new Ray(new Direction(closestObj.transform.multiply(refract.direction)), new Point(obj.transform.multiply(refract.eye)), refract.getInside());
+                    Ray reflTransform = new Ray(new Direction(closestObj.transform.multiply(refract.direction)), new Point(obj.transform.multiply(refract.eye)), refract.getInside(), refract.getInsideArray());
                     closestObj.eye = reflTransform.eye;
                     closestObj.ray.direction = reflTransform.direction;
                     color_vector = color_vector.multiply(1 - obj.getTexture().getTransparencyCoeff()).sum(Shade(closestObj.getTexture(), closestObj, reflTransform).getVector().multiply(obj.getTexture().getTransparencyCoeff()));
@@ -264,8 +258,7 @@ public class PointPlotter {
 
     public void clear() {
         pointPanel.clear();
-        this.x = 0;
-        this.y = 0;
+
     }
 }
 

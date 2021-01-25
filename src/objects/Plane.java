@@ -12,7 +12,7 @@ public class Plane implements ObjectShapeIF {
 
         double t = -(ray.eye.getZ()) / ray.direction.getZ();
         Point p = new Point((ray.eye.getX()+ray.direction.getX()*t), (ray.eye.getY()+ray.direction.getY()*t), (ray.eye.getZ()+ray.direction.getZ()*t));
-        if (t >= 0) {
+        if (t >= 0 && Math.abs(p.getX()) <= 1 && Math.abs(p.getY()) <= 1) {
             hitinfo.addHit(t, p, new Direction(0, 0, -1));
 
         }

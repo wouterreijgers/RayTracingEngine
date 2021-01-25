@@ -113,4 +113,11 @@ public class ObjectCol{
     public void setTexture(Texture texture) {
         this.texture = texture;
     }
+
+    public Hitinfo isHit(Ray ray2) {
+        Direction direction2 = new Direction(transform.multiply(ray2.direction));
+        Point hitpoint = new Point(transform.multiply(ray2.eye));
+        hitinfo = object.isHit(new Ray(direction2, hitpoint));
+        return hitinfo;
+    }
 }

@@ -3,7 +3,6 @@ package objects;
 import mathematics.Direction;
 import mathematics.Point;
 import util.Hitinfo;
-import util.Logger;
 
 public class Cube implements ObjectShapeIF{
     public Cube(){}
