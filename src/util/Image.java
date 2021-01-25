@@ -22,11 +22,11 @@ public class Image {
     public void createImage(PointPanel plotter){
         Color[][] imageMatrix = plotter.getMatrix();
         try {
-            BufferedImage image = new BufferedImage(imageMatrix.length, imageMatrix[0].length, BufferedImage.TYPE_INT_RGB);
+            BufferedImage image = new BufferedImage(imageMatrix[0].length, imageMatrix.length, BufferedImage.TYPE_INT_RGB);
             for(int i=0; i<imageMatrix.length; i++) {
                 for(int j=0; j<imageMatrix[i].length; j++) {
-                    Color a = imageMatrix[j][i];
-                    image.setRGB(j,i,a.getRGB());
+                    Color a = imageMatrix[i][j];
+                    image.setRGB(i,j,a.getRGB());
                 }
             }
             File output = new File("images/image" + id + ".jpg");

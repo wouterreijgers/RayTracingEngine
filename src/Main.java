@@ -24,10 +24,10 @@ public class Main {
 		PointPlotter plotter = null;
 
 		AMOUNT_OF_FRAMES = 1200; // this with 800 is nice!
-		SAFE_POINTS = 3;
+		SAFE_POINTS = 12;
 		MAX_REFLECT_RECURSION = 5;
 		MAX_REFRACT_RECURSION = 5;
-		TIME_STEP = 200; // Calculate a frame and place it TIME_STEP times
+		TIME_STEP = 1; // Calculate a frame and place it TIME_STEP times
 		if(AMOUNT_OF_FRAMES>1){
 			System.out.println("RENDERING VIDEO:\n-------------");
 			System.out.println("\t\tAMOUNT_OF_FRAMES = " + AMOUNT_OF_FRAMES+
@@ -100,6 +100,7 @@ public class Main {
 			for(int i = 0; i<TIME_STEP; i++){
 				export.createImage(plotter.getPointPanel());
 			}
+
 			double temp = frame/(AMOUNT_OF_FRAMES/SAFE_POINTS);
 			if (Math.round(temp) - temp == 0 && frame!=0){
 				System.out.println("Safe point reached: \n----------");

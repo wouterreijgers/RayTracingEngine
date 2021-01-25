@@ -55,7 +55,7 @@ public class PointPanel extends JPanel {
             color.setZ(1.0f);
         }
         matrix[x][y] = new Color((float)color.getX(), (float)color.getY(), (float)color.getZ());
-        frame.setRGB(x, y, new Color((float)color.getX(), (float)color.getY(), (float)color.getZ()).getRGB());
+        //frame.setRGB(x, y, new Color((float)color.getX(), (float)color.getY(), (float)color.getZ()).getRGB());
     }
 
     @Override

@@ -100,7 +100,7 @@ public class PointPlotter {
 //            System.out.println("test");
 //        }
         obj.ray.setInside(false);
-        //pointPanel.drawPoint(y, x, Shade(texture, obj, obj.ray).getVector());
+        pointPanel.drawPoint(y, x, Shade(texture, obj, obj.ray).getVector());
     }
 
     public Color Shade(Texture texture, ObjectCol obj, Ray r){
