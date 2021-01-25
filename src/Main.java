@@ -25,8 +25,8 @@ public class Main {
 
 		AMOUNT_OF_FRAMES = 1; // this with 800 is nice!
 		SAFE_POINTS = 8;
-		MAX_REFLECT_RECURSION = 0;
-		MAX_REFRACT_RECURSION = 0;
+		MAX_REFLECT_RECURSION = 4;
+		MAX_REFRACT_RECURSION = 4;
 		TIME_STEP = 1; // Calculate a frame and place it TIME_STEP times
 		if(AMOUNT_OF_FRAMES>1){
 			System.out.println("RENDERING VIDEO:\n-------------");
@@ -65,7 +65,7 @@ public class Main {
 							.scalingMatrix(0.5, 0.5, 0.5)
 							//.multiply(new MatrixFactory().rotationMatrix("Y", Math.PI / 12))
 							.multiply(new MatrixFactory().rotationMatrix("Z", 2*Math.PI))
-							.multiply(new MatrixFactory().translationMatrix(0, 1.5, -.5)),
+							.multiply(new MatrixFactory().translationMatrix(-3, 1, -.5)),
 	//						.multiply(new MatrixFactory().rotationMatrix("Y", Math.PI / 4 )),
 					new Hitinfo(),
 					eye,
@@ -85,7 +85,7 @@ public class Main {
 			objects[3] = new ObjectCol(
 					"Pyramide",
 					new Pyramid(),
-					new MatrixFactory().translationMatrix(0, 0, 0)
+					new MatrixFactory().translationMatrix(2.5, 1.3, 0)
 							.multiply(new MatrixFactory().rotationMatrix("Z", 2*Math.PI/4))
 							.multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 0.707)),
 					//.multiply(new MatrixFactory().)
@@ -96,7 +96,7 @@ public class Main {
 			objects[4] = new ObjectCol(
 					"Glass",
 					new Sphere(),
-					new MatrixFactory().translationMatrix(-2, 20, -1)
+					new MatrixFactory().translationMatrix(2, 2, -1)
 	//						.multiply(new MatrixFactory().rotationMatrix("Z", Math.PI/8))
 							.multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 0.5)),
 					//.multiply(new MatrixFactory().)
@@ -107,9 +107,9 @@ public class Main {
 			objects[5] = new ObjectCol(
 					"Cube",
 					new Cube(),
-					new MatrixFactory().rotationMatrix("Z", Math.PI/4)
-							.multiply(new MatrixFactory().translationMatrix(-0, -2.5, -1))
-							.multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 0.5)),
+					new MatrixFactory().rotationMatrix("Z", 0*Math.PI/4)
+							.multiply(new MatrixFactory().translationMatrix(-3, -1, 0))
+							.multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 1)),
 					//.multiply(new MatrixFactory().)
 					new Hitinfo(),
 					eye,
@@ -117,10 +117,10 @@ public class Main {
 			);
 			objects[3] = new ObjectCol(
 					"PyramTex",
-					new Pyramid(),
+					new Cube(),
 					new MatrixFactory().rotationMatrix("Z", Math.PI/4)
-							.multiply(new MatrixFactory().translationMatrix(0, 0.5, 0))
-							.multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 0.707)),
+							.multiply(new MatrixFactory().translationMatrix(1, -2.3, -1))
+							.multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 0.5)),
 					//.multiply(new MatrixFactory().)
 					new Hitinfo(),
 					eye,
