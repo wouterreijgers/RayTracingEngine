@@ -65,11 +65,11 @@ public class Texture {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-//        try {
-//            this.imageDesert = ImageIO.read(new File("texture4.jpg"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            this.imageDesert = ImageIO.read(new File("texture4.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        try {
 //            this.imageEarth = ImageIO.read(new File("texture5.jpg"));
 //        } catch (IOException e) {

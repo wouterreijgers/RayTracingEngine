@@ -55,6 +55,6 @@ public class Image {
             System.exit(0);
         }
         int interval = 30;
-        imageToMovie.doIt(1080, 1080, (1000 / interval), imgLst, oml);
+        imageToMovie.doIt(900, 900, (1000 / interval), imgLst, oml);
     }
 }

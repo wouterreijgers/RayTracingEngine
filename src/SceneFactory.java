@@ -51,7 +51,7 @@ public class SceneFactory {
         objects[3] = new ObjectCol(
                 "Pyramide",
                 new Pyramid(),
-                new MatrixFactory().translationMatrix(2.5, 1.3, 0)
+                new MatrixFactory().translationMatrix(1.5, 0.1, 0)
                         .multiply(new MatrixFactory().rotationMatrix("Z", 2*Math.PI/4))
                         .multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 0.707)),
                 //.multiply(new MatrixFactory().)
@@ -65,7 +65,6 @@ public class SceneFactory {
                 new MatrixFactory().translationMatrix(2, 2, -1)
                         //						.multiply(new MatrixFactory().rotationMatrix("Z", Math.PI/8))
                         .multiply(new MatrixFactory().scalingMatrix(0.5, 0.5, 0.5)),
-                //.multiply(new MatrixFactory().)
                 new Hitinfo(),
                 eye,
                 new Texture("glass")
@@ -79,7 +78,7 @@ public class SceneFactory {
                 //.multiply(new MatrixFactory().)
                 new Hitinfo(),
                 eye,
-                new Texture(new Color(0.3f, 0.2f, 0.4f), 0.2, 0.3, 2.0, 0.2, 0.0, 0.0, 0.0, "checkboard")        );
+                new Texture(new Color(0.3f, 0.2f, 0.4f), 0.2, 0.3, 2.0, 0.1, 0.0, 0.0, 0.0, "checkboard")        );
         return objects;
 
     }

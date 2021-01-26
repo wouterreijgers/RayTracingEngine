@@ -1,10 +1,7 @@
 package unittests;
 
 import mathematics.*;
-import objects.Cube;
-import objects.ObjectCol;
-import objects.Ray;
-import objects.Sphere;
+import objects.*;
 import objects.texture.Color;
 import objects.texture.Texture;
 import org.junit.jupiter.api.Test;
@@ -31,9 +28,11 @@ class HitTest {
                 eye,
                 new Texture(new Color(0.3f, 0.2f, 0.3f), new Vector(0.5, 0.5, 0.5, 0), new Vector(0.1, 0.1, 0.1, 0), 64.0, 0.0, 0.0, 0.0, 0.0)
         );
+        Light light = new Light(new Point(4, 2, -2), new Color(1f, 1f, 1f)); // TODO: DEMO LIGHT
+        object.setLight(light);
         object.inverses();
         object.isHit(direction);
-        System.out.println(object.getHitinfo().closestT());
+        assert object.getHitinfo().closestT() == 1.0;
     }
 
     @Test
