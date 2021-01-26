@@ -18,8 +18,8 @@ public class Main {
 
 		// Define window size;
 		ObjectCol[] objects = new ObjectCol[6];
-		int nRows = 900;
-		int nCols = 900;
+		int nRows = 700;
+		int nCols = 700;
 
 		// Initialize tools
 		PointPlotter plotter = null;
