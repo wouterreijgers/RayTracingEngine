@@ -5,4 +5,5 @@ A Raytracing engine capable of generating realisctic images. This raytracer was 
 - Export .jpg files
 - Expert .mp4 videos
 
-![Example image](https://github.com/wouterreijgers/RayTracingEngine/blob/master/video.mp4)
+![video](https://github.com/wouterreijgers/RayTracingEngine/blob/master/video.gif)
+![image](https://github.com/wouterreijgers/RayTracingEngine/blob/master/demoImage.jpg)
